@@ -10,6 +10,8 @@ Tools for building extensions for the Yii PHP framework.
 ```php
 Yii::import('vendor.crisu83.yii-extension.behaviors.ExtensionBehavior');
 
+use crisu83\ExtensionBehavior;
+
 MyApplicationComponent extends CApplicationComponent
 {
   public function init() 
