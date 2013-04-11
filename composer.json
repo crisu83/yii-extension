@@ -1,6 +1,7 @@
 {
     "name": "crisu83/yii-extension",
     "description": "Tools for building extensions for the Yii PHP framework.",
+    "type": "yii-extension",
     "license": "BSD-3-Clause",
     "authors": [
         {
