@@ -1,4 +1,4 @@
 yii-extension
 =============
 
-A starting point for extensions for the Yii PHP framework.
+Tools for building extensions for the Yii PHP framework.
