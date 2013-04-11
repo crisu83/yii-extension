@@ -12,9 +12,9 @@
  */
 class C83ExtensionBehavior extends CBehavior
 {
-	private $_assetsUrl;
 	private $_path;
 	private $_alias;
+	private $_assetsUrl;
 	private $_clientScript;
 
 	/**
