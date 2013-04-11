@@ -7,7 +7,7 @@
  * @package vendor.crisu83.yii-extension.behaviors
  */
 
-namespace crisu83;
+namespace crisu83\yii_extension\behaviors;
 
 /**
  * Extension behavior for components.
