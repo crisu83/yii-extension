@@ -8,12 +8,16 @@ Tools for building extensions for the Yii PHP framework.
 ### Attaching the behavior
 
 ```php
+Yii::import('vendor.crisu83.yii-extension.behaviors.ExtensionBehavior');
+
+use crisu83\ExtensionBehavior;
+
 MyApplicationComponent extends CApplicationComponent
 {
   public function init() 
   {
     parent::init();
-    $this->attachBehavior('extension', 'C83ExtensionBehavior');
+    $this->attachBehavior('extension', new ExtensionBehavior);
   }
 }
 ```
