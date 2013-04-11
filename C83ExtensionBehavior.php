@@ -4,22 +4,30 @@
  * @author Christoffer Niska <christoffer.niska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2013-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @package vendor.crisu83.yii-extension
+ * @package vendor.crisu83.yii-extension.behaviors
  */
 
 /**
- * Example usage:
- *
- * $this->attachBehavior('extension', 'C83ExtensionBehavior');
- * $this->createPathAlias('myExtension', __DIR__);
- * $this->import('MyClass');
- * $myClass = new MyClass;
+ * Extension behavior for components.
  */
 class C83ExtensionBehavior extends CBehavior
 {
 	private $_assetsUrl;
 	private $_path;
 	private $_alias;
+	private $_clientScript;
+
+	/**
+	 * Creates a path alias for the extension.
+	 * @param string $alias path alias to be imported.
+	 * @param string $path path to the extension.
+	 */
+	public function createPathAlias($alias, $path)
+	{
+		$this->_alias = $alias;
+		$this->_path = $path;
+		Yii::setPathOfAlias($alias, $path);
+	}
 
 	/**
 	 * Imports the a class or directory.
@@ -37,47 +45,70 @@ class C83ExtensionBehavior extends CBehavior
 	}
 
 	/**
-	 * Creates a path alias for the extension.
-	 * @param string $alias path alias to be imported.
-	 * @param string $path path to the extension.
-	 */
-	public function createPathAlias($alias, $path)
-	{
-		$this->_alias = $alias;
-		$this->_path = $path;
-		Yii::setPathOfAlias($alias, $path);
-	}
-
-	/**
-	 * Returns the path alias for the extension.
-	 * @return string the alias.
-	 */
-	public function getAlias()
-	{
-		return $this->_alias;
-	}
-
-	/**
-	 * Returns the assets url for the extension.
+	 * Publishes the extension assets.
 	 * @param string $path assets path.
 	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already
 	 * published before.
 	 * @return string the url.
 	 */
-	public function getAssetsUrl($path, $forceCopy = false)
+	public function publishAssets($path, $forceCopy = false)
+	{
+		if (!Yii::app()->hasComponent('assetManager'))
+			return false;
+		/* @var CAssetManager $assetManager */
+		$assetManager = Yii::app()->getComponent('assetManager');
+		if ($this->_path !== null)
+			$path = $this->_path . DIRECTORY_SEPARATOR . $path;
+		$assetsUrl = $assetManager->publish($path, false, -1, $forceCopy);
+		return $this->_assetsUrl = $assetsUrl;
+	}
+
+	/**
+	 * Registers a CSS file.
+	 * @param string $url URL of the CSS file.
+	 * @param string $media media that the CSS file should be applied to.
+	 */
+	public function registerCssFile($url, $media = '')
 	{
 		if (isset($this->_assetsUrl))
-			return $this->_assetsUrl;
+			$url = $this->_assetsUrl . '/' . ltrim($url, '/');
+		$this->getClientScript()->registerCssFile($url, $media);
+	}
+
+	/**
+	 * Registers a JavaScript file.
+	 * @param string $url URL of the javascript file.
+	 * @param integer $position the position of the JavaScript code.
+	 */
+	public function registerScriptFile($url, $position = null)
+	{
+		if (isset($this->_assetsUrl))
+			$url = $this->_assetsUrl . '/' . ltrim($url, '/');
+		$this->getClientScript()->registerScriptFile($url, $position);
+	}
+
+	/**
+	 * Returns the path alias for the extension.
+	 * @return string the alias or false if not set.
+	 */
+	public function getAlias()
+	{
+		return isset($this->_alias) ? $this->_alias : false;
+	}
+
+	/**
+	 * Returns the client script component.
+	 * @return CClientScript the component.
+	 */
+	protected function getClientScript()
+	{
+		if (isset($this->_clientScript))
+			return $this->_clientScript;
 		else
 		{
-			if (!Yii::app()->hasComponent('assetManager'))
+			if (!Yii::app()->hasComponent('clientScript'))
 				return false;
-			/* @var CAssetManager $assetManager */
-			$assetManager = Yii::app()->getComponent('assetManager');
-			if ($this->_path !== null)
-				$path = $this->_path . DIRECTORY_SEPARATOR . $path;
-			$assetsUrl = $assetManager->publish($path, false, -1, $forceCopy);
-			return $this->_assetsUrl = $assetsUrl;
+			return $this->_clientScript = Yii::app()->getComponent('clientScript');
 		}
 	}
 }
