@@ -8,12 +8,7 @@
  */
 
 /**
- * Example usage:
- *
- * $this->attachBehavior('extension', 'C83ExtensionBehavior');
- * $this->createPathAlias('myExtension', __DIR__);
- * $this->import('MyClass');
- * $myClass = new MyClass;
+ * Extension behavior for components.
  */
 class C83ExtensionBehavior extends CBehavior
 {
