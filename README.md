@@ -1,7 +1,8 @@
 yii-extension
 =============
 
-A convenient way to start building your own extensions for the Yii PHP framework. 
+A convenient way to start building your own extensions for the Yii PHP framework.
+
 This project was created to minimize boilerplate code required when creating new extensions for Yii.
 
 ## Usage
