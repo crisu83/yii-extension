@@ -12,7 +12,7 @@ The extension behavior provides basic functionality often required by extensions
 ### Attaching the behavior
 
 ```php
-Yii::import('vendor.crisu83.yii-extension.behaviors.ExtensionBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.ComponentBehavior');
 
 use crisu83\yii_extension\behaviors\ExtensionBehavior;
 
@@ -21,7 +21,7 @@ MyApplicationComponent extends CApplicationComponent
   public function init() 
   {
     parent::init();
-    $this->attachBehavior('extension', new ExtensionBehavior);
+    $this->attachBehavior('ext', new ComponentBehavior);
   }
 }
 ```
