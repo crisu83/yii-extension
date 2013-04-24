@@ -4,7 +4,7 @@
  * @author Christoffer Niska <christoffer.niska@gmail.com>
  * @copyright Copyright &copy; Christoffer Niska 2013-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
- * @package vendor.crisu83.yii-extension.behaviors
+ * @package crisu83.yii-extension.behaviors
  */
 
 namespace crisu83\yii_extension\behaviors;
@@ -12,24 +12,22 @@ namespace crisu83\yii_extension\behaviors;
 /**
  * Extension behavior for components.
  */
-class ExtensionBehavior extends \CBehavior
+abstract class ExtensionBehavior extends \CBehavior
 {
-	private $_path;
-	private $_alias;
 	private $_assetsUrl;
 	private $_clientScript;
 
 	/**
-	 * Creates a path alias for the extension.
-	 * @param string $alias path alias to be imported.
-	 * @param string $path path to the extension.
+	 * Returns the path alias for the extension.
+	 * @return string the alias or false if not set.
 	 */
-	public function createPathAlias($alias, $path)
-	{
-		$this->_alias = $alias;
-		$this->_path = $path;
-		\Yii::setPathOfAlias($alias, $path);
-	}
+	abstract public function getAlias();
+
+	/**
+	 * Returns the path for the extension.
+	 * @return string the path or false if not set.
+	 */
+	abstract public function getPath();
 
 	/**
 	 * Imports the a class or directory.
@@ -41,8 +39,8 @@ class ExtensionBehavior extends \CBehavior
 	 */
 	public function import($alias, $forceInclude = false)
 	{
-		if ($this->_alias !== null)
-			$alias = $this->_alias . '.' . $alias;
+		if (($baseAlias = $this->getAlias()) !== null)
+			$alias = $baseAlias . '.' . $alias;
 		return \Yii::import($alias, $forceInclude);
 	}
 
@@ -59,8 +57,8 @@ class ExtensionBehavior extends \CBehavior
 			return false;
 		/* @var \CAssetManager $assetManager */
 		$assetManager = \Yii::app()->getComponent('assetManager');
-		if ($this->_path !== null)
-			$path = $this->_path . DIRECTORY_SEPARATOR . $path;
+		if (($basePath = $this->getPath()) !== null)
+			$path = $basePath . DIRECTORY_SEPARATOR . $path;
 		$assetsUrl = $assetManager->publish($path, false, -1, $forceCopy);
 		return $this->_assetsUrl = $assetsUrl;
 	}
@@ -87,15 +85,6 @@ class ExtensionBehavior extends \CBehavior
 		if (isset($this->_assetsUrl))
 			$url = $this->_assetsUrl . '/' . ltrim($url, '/');
 		$this->getClientScript()->registerScriptFile($url, $position);
-	}
-
-	/**
-	 * Returns the path alias for the extension.
-	 * @return string the alias or false if not set.
-	 */
-	public function getAlias()
-	{
-		return isset($this->_alias) ? $this->_alias : false;
 	}
 
 	/**
