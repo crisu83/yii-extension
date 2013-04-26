@@ -14,6 +14,9 @@ namespace crisu83\yii_extension\behaviors;
  */
 abstract class ExtensionBehavior extends \CBehavior
 {
+	public $connectionID = 'db';
+
+	private $_db;
 	private $_assetsUrl;
 	private $_clientScript;
 
@@ -35,13 +38,33 @@ abstract class ExtensionBehavior extends \CBehavior
 	 * @param string $alias path alias to be imported.
 	 * @param boolean $forceInclude whether to include the class file immediately.
 	 * @return string the class name or the directory that this alias refers to.
-	 * @throws CException if the alias is invalid
+	 * @throws \CException if the alias is invalid.
 	 */
 	public function import($alias, $forceInclude = false)
 	{
 		if (($baseAlias = $this->getAlias()) !== null)
 			$alias = $baseAlias . '.' . $alias;
 		return \Yii::import($alias, $forceInclude);
+	}
+
+	/**
+	 * Returns the database connection for this component.
+	 * @return \CDbConnection the connection component.
+	 * @throws \CException if the component does not exist or is not an instance of CDbConnection.
+	 */
+	public function getDbConnection()
+	{
+		if ($this->_db !== null)
+			return $this->_db;
+		else
+		{
+			if (!\Yii::app()->hasComponent($this->connectionID))
+				throw new \CException('Failed to get database connection. Connection component does not exist.');
+			$db = \Yii::app()->getComponent($this->connectionID);
+			if (!$db instanceof \CDbConnection)
+				throw new \CException('Failed to get database connection. Connection component is not an instance of CDbConnection.');
+			return $this->_db = $db;
+		}
 	}
 
 	/**

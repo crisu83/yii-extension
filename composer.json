@@ -1,16 +1,15 @@
 {
     "name": "crisu83/yii-extension",
     "description": "Tools for building extensions for the Yii PHP framework.",
-    "type": "yii-extension",
-    "license": "BSD-3-Clause",
-    "authors": [
+	"type": "yii-extension",
+	"require": {
+	},
+	"license": "BSD-3-Clause",
+	"authors": [
         {
             "name": "Christoffer Niska",
             "email": "ChristofferNiska@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {
-
-    }
+	"minimum-stability": "dev"
 }
