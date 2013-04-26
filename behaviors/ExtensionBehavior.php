@@ -14,6 +14,9 @@ namespace crisu83\yii_extension\behaviors;
  */
 abstract class ExtensionBehavior extends \CBehavior
 {
+	/**
+	 * @var string the id of the database connection component.
+	 */
 	public $connectionID = 'db';
 
 	private $_db;
