@@ -83,7 +83,7 @@ abstract class ExtensionBehavior extends \CBehavior
 			return false;
 		/* @var \CAssetManager $assetManager */
 		$assetManager = \Yii::app()->getComponent('assetManager');
-		if (($basePath = $this->getPath()) !== null)
+		if (($basePath = $this->getPath()) !== false)
 			$path = $basePath . DIRECTORY_SEPARATOR . $path;
 		$assetsUrl = $assetManager->publish($path, false, -1, $forceCopy);
 		return $this->_assetsUrl = $assetsUrl;
