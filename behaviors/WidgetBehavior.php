@@ -9,6 +9,8 @@
 
 namespace crisu83\yii_extension\behaviors;
 
+\Yii::import('vendor.crisu83.yii-extension.behaviors.ComponentBehavior', true);
+
 /**
  * Extension behavior for widgets.
  */
