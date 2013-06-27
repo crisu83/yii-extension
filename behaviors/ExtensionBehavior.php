@@ -113,6 +113,18 @@ abstract class ExtensionBehavior extends \CBehavior
 		$this->getClientScript()->registerScriptFile($url, $position);
 	}
 
+    /**
+     * Returns the name of the correct script file to use.
+     * @param string $filename the base file name.
+     * @param boolean $minified whether to include the minified version (defaults to false).
+     * @return string the full filename.
+     */
+    public function resolveScriptVersion($filename, $minified = false)
+    {
+        list($name, $extension) = str_split($filename, strrpos($filename, '.') + 1);
+        return !$minified ? $name . $extension : $name . 'min.' . $extension;
+    }
+
 	/**
 	 * Returns the client script component.
 	 * @return \CClientScript the component.
