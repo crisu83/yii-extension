@@ -7,12 +7,10 @@
  * @package crisu83.yii-extension.behaviors
  */
 
-namespace crisu83\yii_extension\behaviors;
-
 /**
  * Extension behavior for components.
  */
-abstract class ExtensionBehavior extends \CBehavior
+abstract class ExtensionBehavior extends CBehavior
 {
 	/**
 	 * @var string the id of the database connection component.
@@ -47,7 +45,7 @@ abstract class ExtensionBehavior extends \CBehavior
 	{
 		if (($baseAlias = $this->getAlias()) !== null)
 			$alias = $baseAlias . '.' . $alias;
-		return \Yii::import($alias, $forceInclude);
+		return Yii::import($alias, $forceInclude);
 	}
 
 	/**
@@ -61,11 +59,11 @@ abstract class ExtensionBehavior extends \CBehavior
 			return $this->_db;
 		else
 		{
-			if (!\Yii::app()->hasComponent($this->connectionID))
-				throw new \CException('Failed to get database connection. Connection component does not exist.');
-			$db = \Yii::app()->getComponent($this->connectionID);
-			if (!$db instanceof \CDbConnection)
-				throw new \CException('Failed to get database connection. Connection component is not an instance of CDbConnection.');
+			if (!Yii::app()->hasComponent($this->connectionID))
+				throw new CException('Failed to get database connection. Connection component does not exist.');
+			$db = Yii::app()->getComponent($this->connectionID);
+			if (!$db instanceof CDbConnection)
+				throw new CException('Failed to get database connection. Connection component is not an instance of CDbConnection.');
 			return $this->_db = $db;
 		}
 	}
@@ -79,10 +77,10 @@ abstract class ExtensionBehavior extends \CBehavior
 	 */
 	public function publishAssets($path, $forceCopy = false)
 	{
-		if (!\Yii::app()->hasComponent('assetManager'))
+		if (!Yii::app()->hasComponent('assetManager'))
 			return false;
 		/* @var \CAssetManager $assetManager */
-		$assetManager = \Yii::app()->getComponent('assetManager');
+		$assetManager = Yii::app()->getComponent('assetManager');
 		if (($basePath = $this->getPath()) !== false)
 			$path = $basePath . DIRECTORY_SEPARATOR . $path;
 		$assetsUrl = $assetManager->publish($path, false, -1, $forceCopy);
@@ -135,9 +133,9 @@ abstract class ExtensionBehavior extends \CBehavior
 			return $this->_clientScript;
 		else
 		{
-			if (!\Yii::app()->hasComponent('clientScript'))
+			if (!Yii::app()->hasComponent('clientScript'))
 				return false;
-			return $this->_clientScript = \Yii::app()->getComponent('clientScript');
+			return $this->_clientScript = Yii::app()->getComponent('clientScript');
 		}
 	}
 }

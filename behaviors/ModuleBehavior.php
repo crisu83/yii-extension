@@ -7,13 +7,11 @@
  * @package crisu83.yii-extension.behaviors
  */
 
-namespace crisu83\yii_extension\behaviors;
-
-\Yii::import('vendor.crisu83.yii-extension.behaviors.ExtensionBehavior', true);
+Yii::import(__DIR__ . '/ExtensionBehavior');
 
 /**
  * Behavior for extensions based on a module.
- * @property \CModule $owner
+ * @property CModule $owner
  */
 class ModuleBehavior extends ExtensionBehavior
 {
