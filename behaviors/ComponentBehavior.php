@@ -7,7 +7,7 @@
  * @package crisu83.yii-extension.behaviors
  */
 
-Yii::import(__DIR__ . '/ExtensionBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.ExtensionBehavior');
 
 /**
  * Behavior for extensions based on an application component.

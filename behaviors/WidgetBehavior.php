@@ -7,7 +7,7 @@
  * @package crisu83.yii-extension.behaviors
  */
 
-Yii::import(__DIR__ . '/ComponentBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.ComponentBehavior');
 
 /**
  * Extension behavior for widgets.
