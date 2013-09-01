@@ -1,6 +1,8 @@
 yii-extension
 =============
 
+[![Latest Stable Version](https://poser.pugx.org/crisu83/yii-extension/v/stable.png)](https://packagist.org/packages/crisu83/yii-extension)
+
 A convenient way to start building your own extensions for the Yii PHP framework.
 
 This project was created to minimize boilerplate code required when creating new extensions for Yii. It includes separate behaviors for Widgets, Components and Modules that all extend the ExtensionBehavior class. 
