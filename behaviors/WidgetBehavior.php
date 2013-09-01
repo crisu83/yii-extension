@@ -7,13 +7,21 @@
  * @package crisu83.yii-extension.behaviors
  */
 
-namespace crisu83\yii_extension\behaviors;
-
-\Yii::import('vendor.crisu83.yii-extension.behaviors.ComponentBehavior', true);
+Yii::import('vendor.crisu83.yii-extension.behaviors.ComponentBehavior');
 
 /**
  * Extension behavior for widgets.
  */
 class WidgetBehavior extends ComponentBehavior
 {
+    /**
+     * Copies the id to the widget HTML attributes or vise versa.
+     */
+    public function copyId()
+    {
+        if (!isset($this->owner->htmlOptions['id']))
+            $this->owner->htmlOptions['id'] = $this->owner->id;
+        else
+            $this->owner->id = $this->owner->htmlOptions['id'];
+    }
 }

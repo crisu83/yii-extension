@@ -7,13 +7,11 @@
  * @package crisu83.yii-extension.behaviors
  */
 
-namespace crisu83\yii_extension\behaviors;
-
-\Yii::import('vendor.crisu83.yii-extension.behaviors.ExtensionBehavior', true);
+Yii::import('vendor.crisu83.yii-extension.behaviors.ExtensionBehavior');
 
 /**
  * Behavior for extensions based on an application component.
- * @property \CApplicationComponent $owner
+ * @property CComponent $owner
  */
 class ComponentBehavior extends ExtensionBehavior
 {
@@ -29,7 +27,7 @@ class ComponentBehavior extends ExtensionBehavior
 	{
 		$this->_alias = $alias;
 		$this->_path = $path;
-		\Yii::setPathOfAlias($alias, $path);
+		Yii::setPathOfAlias($alias, $path);
 	}
 
 	/**
