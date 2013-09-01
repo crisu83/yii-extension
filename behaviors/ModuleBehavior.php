@@ -7,29 +7,27 @@
  * @package crisu83.yii-extension.behaviors
  */
 
-Yii::import('vendor.crisu83.yii-extension.behaviors.ExtensionBehavior');
-
 /**
  * Behavior for extensions based on a module.
  * @property CModule $owner
  */
 class ModuleBehavior extends ExtensionBehavior
 {
-	/**
-	 * Returns the path alias for the extension.
-	 * @return string the alias or false if not set.
-	 */
-	public function getAlias()
-	{
-		return $this->owner->getId();
-	}
+    /**
+     * Returns the path alias for the extension.
+     * @return string the alias or false if not set.
+     */
+    public function getAlias()
+    {
+        return $this->owner->getId();
+    }
 
-	/**
-	 * Returns the path for the extension.
-	 * @return string the path or false if not set.
-	 */
-	public function getPath()
-	{
-		return $this->owner->getBasePath();
-	}
+    /**
+     * Returns the path for the extension.
+     * @return string the path or false if not set.
+     */
+    public function getPath()
+    {
+        return $this->owner->getBasePath();
+    }
 }

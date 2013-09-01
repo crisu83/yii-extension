@@ -44,8 +44,9 @@ abstract class ExtensionBehavior extends CBehavior
      */
     public function import($alias, $forceInclude = false)
     {
-        if (($baseAlias = $this->getAlias()) !== null)
+        if (($baseAlias = $this->getAlias()) !== null) {
             $alias = $baseAlias . '.' . $alias;
+        }
         return Yii::import($alias, $forceInclude);
     }
 
@@ -56,15 +57,19 @@ abstract class ExtensionBehavior extends CBehavior
      */
     public function getDbConnection()
     {
-        if ($this->_db !== null)
+        if ($this->_db !== null) {
             return $this->_db;
-        else
-        {
-            if (!Yii::app()->hasComponent($this->connectionID))
-                throw new CException('Failed to get database connection. Connection component does not exist.');
+        } else {
+            if (!Yii::app()->hasComponent($this->connectionID)) {
+                throw new CException(sprintf('Connection component "%s" does not exist.', $this->connectionID));
+            }
             $db = Yii::app()->getComponent($this->connectionID);
-            if (!$db instanceof CDbConnection)
-                throw new CException('Failed to get database connection. Connection component is not an instance of CDbConnection.');
+            if (!$db instanceof CDbConnection) {
+                throw new CException(sprintf(
+                    'Connection component "%s" is not an instance of CDbConnection.',
+                    $this->connectionID
+                ));
+            }
             return $this->_db = $db;
         }
     }
@@ -78,12 +83,14 @@ abstract class ExtensionBehavior extends CBehavior
      */
     public function publishAssets($path, $forceCopy = false)
     {
-        if (!Yii::app()->hasComponent('assetManager'))
-            return false;
-        /* @var \CAssetManager $assetManager */
+        if (!Yii::app()->hasComponent('assetManager')) {
+            throw new CException('Failed to locate the asset manager component.');
+        }
+        /* @var CAssetManager $assetManager */
         $assetManager = Yii::app()->getComponent('assetManager');
-        if (($basePath = $this->getPath()) !== false)
+        if (($basePath = $this->getPath()) !== false) {
             $path = $basePath . DIRECTORY_SEPARATOR . $path;
+        }
         $assetsUrl = $assetManager->publish($path, false, -1, $forceCopy);
         return $this->_assetsUrl = $assetsUrl;
     }
@@ -95,8 +102,9 @@ abstract class ExtensionBehavior extends CBehavior
      */
     public function registerCssFile($url, $media = '')
     {
-        if (isset($this->_assetsUrl))
+        if (isset($this->_assetsUrl)) {
             $url = $this->_assetsUrl . '/' . ltrim($url, '/');
+        }
         $this->getClientScript()->registerCssFile($url, $media);
     }
 
@@ -107,8 +115,9 @@ abstract class ExtensionBehavior extends CBehavior
      */
     public function registerScriptFile($url, $position = null)
     {
-        if (isset($this->_assetsUrl))
+        if (isset($this->_assetsUrl)) {
             $url = $this->_assetsUrl . '/' . ltrim($url, '/');
+        }
         $this->getClientScript()->registerScriptFile($url, $position);
     }
 
@@ -149,12 +158,12 @@ abstract class ExtensionBehavior extends CBehavior
      */
     protected function getClientScript()
     {
-        if (isset($this->_clientScript))
+        if (isset($this->_clientScript)) {
             return $this->_clientScript;
-        else
-        {
-            if (!Yii::app()->hasComponent('clientScript'))
+        } else {
+            if (!Yii::app()->hasComponent('clientScript')) {
                 return false;
+            }
             return $this->_clientScript = Yii::app()->getComponent('clientScript');
         }
     }
