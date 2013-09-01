@@ -12,7 +12,7 @@ This project was created to minimize boilerplate code required when creating new
 #### Attaching the behavior
 
 ```php
-Yii::import('vendor.crisu83.yii-extension.behaviors.WidgetBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.*');
 
 MyWidget extends CWidget
 {
@@ -37,7 +37,7 @@ $this->registerScriptFile('js/script.js');
 #### Attaching the behavior
 
 ```php
-Yii::import('vendor.crisu83.yii-extension.behaviors.ComponentBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.*');
 
 MyApplicationComponent extends CApplicationComponent
 {
@@ -70,7 +70,7 @@ $this->registerScriptFile('js/script.js');
 #### Attaching the behavior
 
 ```php
-Yii::import('vendor.crisu83.yii-extension.behaviors.ModuleBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.*');
 
 MyModule extends CWebModule
 {
