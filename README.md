@@ -1,6 +1,8 @@
 yii-extension
 =============
 
+[![Latest Stable Version](https://poser.pugx.org/crisu83/yii-extension/v/stable.png)](https://packagist.org/packages/crisu83/yii-extension)
+
 A convenient way to start building your own extensions for the Yii PHP framework.
 
 This project was created to minimize boilerplate code required when creating new extensions for Yii. It includes separate behaviors for Widgets, Components and Modules that all extend the ExtensionBehavior class. 
@@ -12,7 +14,7 @@ This project was created to minimize boilerplate code required when creating new
 #### Attaching the behavior
 
 ```php
-Yii::import('vendor.crisu83.yii-extension.behaviors.WidgetBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.*');
 
 MyWidget extends CWidget
 {
@@ -37,7 +39,7 @@ $this->registerScriptFile('js/script.js');
 #### Attaching the behavior
 
 ```php
-Yii::import('vendor.crisu83.yii-extension.behaviors.ComponentBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.*');
 
 MyApplicationComponent extends CApplicationComponent
 {
@@ -70,7 +72,7 @@ $this->registerScriptFile('js/script.js');
 #### Attaching the behavior
 
 ```php
-Yii::import('vendor.crisu83.yii-extension.behaviors.ModuleBehavior');
+Yii::import('vendor.crisu83.yii-extension.behaviors.*');
 
 MyModule extends CWebModule
 {
