@@ -77,14 +77,14 @@ abstract class ExtensionBehavior extends CBehavior
     /**
      * Publishes the extension assets.
      * @param string $path assets path.
-     * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already
-     * published before.
+     * @param boolean $forceCopy whether we should copy the asset file or directory
+     * even if it is already published before.
      * @return string the url.
      */
     public function publishAssets($path, $forceCopy = false)
     {
         if (!Yii::app()->hasComponent('assetManager')) {
-            throw new CException('Failed to locate the asset manager component.');
+            return false; // ignore this method while ran from the console
         }
         /* @var CAssetManager $assetManager */
         $assetManager = Yii::app()->getComponent('assetManager');
@@ -99,26 +99,34 @@ abstract class ExtensionBehavior extends CBehavior
      * Registers a CSS file.
      * @param string $url URL of the CSS file.
      * @param string $media media that the CSS file should be applied to.
+     * @return CClientScript the client script component.
      */
     public function registerCssFile($url, $media = '')
     {
+        if (($cs = $this->getClientScript()) === false) {
+            return null;
+        }
         if (isset($this->_assetsUrl)) {
             $url = $this->_assetsUrl . '/' . ltrim($url, '/');
         }
-        $this->getClientScript()->registerCssFile($url, $media);
+        return $cs->registerCssFile($url, $media);
     }
 
     /**
      * Registers a JavaScript file.
      * @param string $url URL of the javascript file.
      * @param integer $position the position of the JavaScript code.
+     * @return CClientScript the client script component.
      */
     public function registerScriptFile($url, $position = null)
     {
+        if (($cs = $this->getClientScript()) === false) {
+            return null;
+        }
         if (isset($this->_assetsUrl)) {
             $url = $this->_assetsUrl . '/' . ltrim($url, '/');
         }
-        $this->getClientScript()->registerScriptFile($url, $position);
+        return $cs->registerScriptFile($url, $position);
     }
 
     /**
@@ -140,12 +148,17 @@ abstract class ExtensionBehavior extends CBehavior
      */
     public function resolveDependencyPath($name)
     {
-        return isset($this->_dependencies[$name]) ? $this->_dependencies[$name] : false;
+        if (!isset($this->_dependencies[$name])) {
+            throw new CException(sprintf('Dependency "%s" is not defined.', $name));
+        }
+        $path = $this->_dependencies[$name];
+        $result = Yii::getPathOfAlias($path);
+        return $result === false ? $path : $result;
     }
 
     /**
      * Registers the dependencies for the owner of this behavior.
-     * @param array $dependencies the dependency configuration (name => path).
+     * @param array $dependencies the dependency configuration (name => path/alias).
      */
     public function registerDependencies($dependencies)
     {
