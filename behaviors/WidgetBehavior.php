@@ -9,20 +9,25 @@
 
 /**
  * Extension behavior for widgets.
+ * @property CWidget $owner
  */
 class WidgetBehavior extends ComponentBehavior
 {
     /**
-     * Copies the id to the widget HTML attributes or vise versa.
-     * @return string the id.
+     * Returns the widget id and copies it to HTML attributes or vice versa.
+     * @param string $id the widget id.
+     * @return string the widget id.
      */
-    public function copyId()
+    public function resolveId($id = null)
     {
-        if (!isset($this->owner->htmlOptions['id'])) {
-            $this->owner->htmlOptions['id'] = $this->owner->id;
-        } else {
-            $this->owner->id = $this->owner->htmlOptions['id'];
+        if ($id === null) {
+            $id = $this->owner->getId();
         }
-        return $this->owner->id;
+        if (isset($this->owner->htmlOptions['id'])) {
+            $id = $this->owner->htmlOptions['id'];
+        } else {
+            $this->owner->htmlOptions['id'] = $id;
+        }
+        return $id;
     }
 }

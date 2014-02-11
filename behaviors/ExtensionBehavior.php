@@ -17,10 +17,8 @@ abstract class ExtensionBehavior extends CBehavior
      */
     public $connectionID = 'db';
 
-    private $_db;
+    /** @var string */
     private $_assetsUrl;
-    private $_clientScript;
-    private $_dependencies = array();
 
     /**
      * Returns the path alias for the extension.
@@ -57,21 +55,17 @@ abstract class ExtensionBehavior extends CBehavior
      */
     public function getDbConnection()
     {
-        if ($this->_db !== null) {
-            return $this->_db;
-        } else {
-            if (!Yii::app()->hasComponent($this->connectionID)) {
-                throw new CException(sprintf('Connection component "%s" does not exist.', $this->connectionID));
-            }
-            $db = Yii::app()->getComponent($this->connectionID);
-            if (!$db instanceof CDbConnection) {
-                throw new CException(sprintf(
-                    'Connection component "%s" is not an instance of CDbConnection.',
-                    $this->connectionID
-                ));
-            }
-            return $this->_db = $db;
+        if (!Yii::app()->hasComponent($this->connectionID)) {
+            throw new CException(sprintf('Connection component "%s" does not exist.', $this->connectionID));
         }
+        $db = Yii::app()->getComponent($this->connectionID);
+        if (!$db instanceof CDbConnection) {
+            throw new CException(sprintf(
+                'Connection component "%s" is not an instance of CDbConnection.',
+                $this->connectionID
+            ));
+        }
+        return $db;
     }
 
     /**
@@ -142,42 +136,14 @@ abstract class ExtensionBehavior extends CBehavior
     }
 
     /**
-     * Returns the path for a specific dependency.
-     * @param string $name the dependency name.
-     * @return string the path.
-     */
-    public function resolveDependencyPath($name)
-    {
-        if (!isset($this->_dependencies[$name])) {
-            throw new CException(sprintf('Dependency "%s" is not defined.', $name));
-        }
-        $path = $this->_dependencies[$name];
-        $result = Yii::getPathOfAlias($path);
-        return $result === false ? $path : $result;
-    }
-
-    /**
-     * Registers the dependencies for the owner of this behavior.
-     * @param array $dependencies the dependency configuration (name => path/alias).
-     */
-    public function registerDependencies($dependencies)
-    {
-        $this->_dependencies = $dependencies;
-    }
-
-    /**
      * Returns the client script component.
-     * @return \CClientScript the component.
+     * @return CClientScript the component.
      */
     protected function getClientScript()
     {
-        if (isset($this->_clientScript)) {
-            return $this->_clientScript;
-        } else {
-            if (!Yii::app()->hasComponent('clientScript')) {
-                return false;
-            }
-            return $this->_clientScript = Yii::app()->getComponent('clientScript');
+        if (!Yii::app()->hasComponent('clientScript')) {
+            return false;
         }
+        return Yii::app()->getComponent('clientScript');
     }
 }
